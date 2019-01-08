@@ -1,5 +1,5 @@
 # docker
 
-Repository for Wikipathways related docker files.
+Repository for WikiPathways related Docker files.
 
- - currently contains virtuoso docker only
+ - currently contains Virtuoso Docker only
