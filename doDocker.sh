@@ -12,7 +12,7 @@ rm ../all.ttl
 
 unzip -o \*.zip
 find . -name "*.ttl" -exec cat > ../all.ttl {} \;
-cd .. 
+cd ../../ 
 
 
 docker build --no-cache -t "develop" .
@@ -20,7 +20,7 @@ docker build --no-cache -t "develop" .
 docker tag develop bigcatum/virtuoso-wikipathways:develop
 docker run -d --env DBA_PASSWORD=dba --name loadVirtuoso --volume `pwd`/dataload/:/database  bigcatum/virtuoso-wikipathways:develop
 
-docker exec -ti loadVirtuoso isql -P dba -S 1111 exec="DB.DBA.TTLP_MT (file_to_string_output ('/database/all.ttl'), 'http://rdf.wikipathways.org/');"
+docker exec -ti loadVirtuoso isql -P dba -S 1111 exec="DB.DBA.TTLP_MT (file_to_string_output ('/opt/virtuoso-opensource/database/all.ttl'), 'http://rdf.wikipathways.org/');"
 
 
 
