@@ -2,4 +2,4 @@
 
 Repository for WikiPathways related Docker files.
 
- - currently contains Virtuoso Docker only
+ - currently contains Virtuoso Docker only (on development)
