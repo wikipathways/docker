@@ -8,14 +8,14 @@ The Docker image currently contains Virtuoso Docker only (on development) that r
 # Guideline to set up a Virtuoso SPARQL endpoint with WikiPathways RDF (on linux):
 
 # Step 1 - Create folder to mount
-Enter the terminal and create a folder to map to the docker container. We created the folder '/dataload/data' and entered it by using:
+Enter the terminal and create a local folder to map to the docker container. Note the path to the folder to enter it at step 3. In this example, the folder '/dataload/data' was created and entered it by using:
 ```
 mkdir -p dataload/data
 cd dataload/data
 ```
 
 # Step 2A - Download RDF
-The WikiPathways RDF has three files that need to be downloaded. Make sure that the filenames are correct, as these update monthly. In this example, we use the RDF release of February 10th, 2019. With every new release, the date in the file names are updated. Check http://data.wikipathways.org/current/rdf/ for the file names to download. Use:
+The WikiPathways RDF has three files that need to be downloaded. Make sure that the filenames are correct, as these update monthly. In this example, the RDF release of February 10th, 2019 was used. With every new release, the date in the file names are updated. Check http://data.wikipathways.org/current/rdf/ for the file names to download. Use:
 ```
 wget  http://data.wikipathways.org/current/rdf/wikipathways-20190210-rdf-void.ttl
 wget  http://data.wikipathways.org/current/rdf/wikipathways-20190210-rdf-gpml.zip
@@ -23,7 +23,7 @@ wget  http://data.wikipathways.org/current/rdf/wikipathways-20190210-rdf-wp.zip
 ```
 
 # Step 2B - Unzip and concatenate files, and return to starting folder
-The WP RDF and GPML RDF zip files need to be unzipped and all files need to be concatenated into one file. In this case, we call the concatenated file "all.ttl". Afterwards, exit the newly created folder:
+The WP RDF and GPML RDF zip files need to be unzipped and all files need to be concatenated into one file. In this case, the concatenated file was called "all.ttl". Afterwards, exit the newly created folder:
 ```
 unzip -o \*.zip
 find . -name "*.ttl" -exec cat > ../all.ttl {} \;
@@ -31,7 +31,7 @@ cd ../../
 ```
 
 # Step 3 - Run the Docker image
-Use 'sudo' if necessary. Be sure to use ports 8890:8890 and 1111:1111. In this case, we named the container "loadVirtuoso". Also, this step configures the mapped local folder with the data, which is in this example "/dataload". The Docker image used  is bigcatum/wikipathways-virtuoso:develop. Do this by entering:
+Use 'sudo' if necessary. Be sure to use ports 8890:8890 and 1111:1111. In this case, the container was named "loadVirtuoso". Also, this step configures the mapped local folder with the data, which is in this example "/dataload". The Docker image used  is bigcatum/wikipathways-virtuoso:develop. Do this by entering:
 ```
 sudo docker run -d --env DBA_PASSWORD=dba -p 8890:8890 -p 1111:1111 --name loadVirtuoso --volume `pwd`/dataload/:/database/data/  bigcatum/wikipathways-virtuoso:develop
 ```
