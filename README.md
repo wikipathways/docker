@@ -33,7 +33,7 @@ cd ../../
 # Step 3 - Run the Docker image
 Use 'sudo' if necessary. Be sure to use ports 8890:8890 and 1111:1111. In this case, the container was named "loadVirtuoso". Also, this step configures the mapped local folder with the data, which is in this example "/dataload". The Docker image used  is bigcatum/wikipathways-virtuoso:develop. Do this by entering:
 ```
-sudo docker run -d --env DBA_PASSWORD=dba -p 8890:8890 -p 1111:1111 --name loadVirtuoso --volume `pwd`/dataload/:/database/data/  bigcatum/wikipathways-virtuoso:develop
+sudo docker run -d --env DBA_PASSWORD=dba -p 8890:8890 -p 1111:1111 --name loadVirtuoso --volume `pwd`/dataload/:/database/data/  openlink/virtuoso-opensource-7
 ```
 
 # Step 4 - Enter the running container
@@ -50,6 +50,7 @@ cd data
 mv all.ttl ../
 cd ../
 ```
+
 Second, create a ".graph" file and add the graph.iri in that file, which is "http://rdf.wikipathways.org/". Prior to that, a text editing tool needs to be installed, such as "nano". Use the commands:
 ```
 touch all.ttl.graph
@@ -57,6 +58,7 @@ apt-get update
 apt-get install nano
 nano all.ttl.graph 
 ```
+
 When the file is entered, write "http://rdf.wikipathways.org/" (without ") and exit the file by pressing Ctrl+X, followed by "Y" and Enter to save and return. Exit the docker container by:
 ```
 exit
@@ -68,7 +70,7 @@ Enter the running docker container SQL by using:
 sudo docker exec -i loadVirtuoso isql 1111
 ```
 
-Use the following commands to complete the loading of RDF. If errors occur, try again within a few seconds (which often works), or look at http://docs.openlinksw.com/virtuoso/errorcodes/ to find out what they mean. This whole step might take a couple of minutes.
+Use the following commands to complete the loading of RDF. If errors occur, try again within a few seconds (which often works), or look at http://docs.openlinksw.com/virtuoso/errorcodes/ to find out what they mean. 
 ```
 log_enable(2);
 DB.DBA.XML_SET_NS_DECL ('dc', 'http://purl.org/dc/elements/1.1/',2);
@@ -94,12 +96,18 @@ log_enable(1);
 grant select on "DB.DBA.SPARQL_SINV_2" to "SPARQL";
 grant execute on "DB.DBA.SPARQL_SINV_IMP" to "SPARQL";
 ld_dir('.', 'all.ttl', 'http://rdf.wikipathways.org');
+```
+
+To finalize the loading of data, use:
+```
 rdf_loader_run();
 ```
+
 Check the status and look if the all.ttl file is loaded by entering:
 ```
 select * from DB.DBA.load_list;
 ```
+
 If the "il_state" = 2, the loading is complete. If issues occurred in this step, have a look at http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader. 
 Quit the SQL by entering:
 ```
