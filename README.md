@@ -31,7 +31,7 @@ cd ../../
 ```
 
 # Step 3 - Run the Docker image
-Use 'sudo' if necessary. Be sure to use ports 8890:8890 and 1111:1111. In this case, the container was named "loadVirtuoso". Also, this step configures the mapped local folder with the data, which is in this example "/dataload". The Docker image used  is bigcatum/wikipathways-virtuoso:develop. Do this by entering:
+Use 'sudo' if necessary. Be sure to use ports 8890:8890 and 1111:1111. In this case, the container was named "loadVirtuoso". Also, this step configures the mapped local folder with the data, which is in this example "/dataload". The Docker image used  is openlink/virtuoso-opensource-7. Do this by entering:
 ```
 sudo docker run -d --env DBA_PASSWORD=dba -p 8890:8890 -p 1111:1111 --name loadVirtuoso --volume `pwd`/dataload/:/database/data/  openlink/virtuoso-opensource-7
 ```
